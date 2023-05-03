@@ -9,7 +9,7 @@ kmax = 10;     % número  máximo de pasos hacia atrás
 g = gradiente(fname,x);  fx = feval(fname,x);
 MG = norm(g);
 n = length(x);
-A = eye(n);
+A = (1/norm(g))*eye(n);
 j = 0;
 while (norm(g) > tol && j < jmax )
     p = -A*g;    % dirección de descenso
@@ -25,25 +25,25 @@ while (norm(g) > tol && j < jmax )
         k = k+1;
     end
     %------------------------------------
-    %if (k ==kmax)
-    %    alfa = 1.0;
-    %end
+%    if (k ==kmax)
+%       alfa = 1.0;
+%   end
     xp = x + alfa*p;
     gxp = gradiente(fname,xp);
     s = xp -x;  y = gxp-g;
     trial = y'*s;
     if(trial > 1.e-05)
         gamma = 1/(trial);
-        C = eye(n) - gamma*(s*y');
+        C = eye(n) - gamma*(y*s');
         A = C'*A*C+gamma*(s*s');
     else
         A = eye(n);
     end
     
     x = xp;
-    g = gxp;
+    g = gxp; 
+    MG = [ MG ; norm(g)];
     j = j+1;
-    MG = norm(g);
     fprintf('%2.0f %2.8f \n ',j,norm(g))
 end
 

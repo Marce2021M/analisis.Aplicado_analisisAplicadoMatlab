@@ -1,8 +1,8 @@
-function [ xf,MG, j ] = bfgs(fname, x)
+function [ xf, j ] = bfgs(fname, x)
 % 
 
 tol = 1e-05;  % tolerancia a la norma del gradiente
-jmax = 50;   % número máximo de iteraciones
+jmax = 100;   % número máximo de iteraciones
 c1 = 0.0001;     % parámetro para np dar pasos grandes
 kmax = 10;     % número  máximo de pasos hacia atrás
 
@@ -24,9 +24,9 @@ while (norm(g) > tol && j < jmax )
         k = k+1;
     end
     %------------------------------------
-    %if (k ==kmax)
-    %    alfa = 1.0;
-    %end
+    if (k ==kmax)
+        alfa = 1.0;
+    end
     xp = x + alfa*p;
     gxp = gradiente(fname,xp);
     s = xp -x;  y = gxp-g;
