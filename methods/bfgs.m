@@ -12,6 +12,7 @@ A = eye(n);
 j = 0;
 while (norm(g) > tol && j < jmax )
     p = pcg(A, -g);    % dirección de descenso
+    
     % búsqueda de línea
     alfa = 1.0;
     xp = x + alfa*p;
